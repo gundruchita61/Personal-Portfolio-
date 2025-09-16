@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ruchita Gund - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            background: #F4F4F4;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #4A90E2, #8E44AD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-menu a:hover {
+            color: #4A90E2;
+        }
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: linear-gradient(45deg, #4A90E2, #FF6B6B);
+            transition: all 0.3s ease;
+        }
+        .nav-menu a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            padding: 100px 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Home */
+        .home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #4A90E2 0%, #8E44AD 100%);
+            color: white;
+        }
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid rgba(255,255,255,0.6);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+        .home h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .home .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .cta-button {
+            background: white;
+            color: #4A90E2;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            background: #FF6B6B;
+            color: white;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #4A90E2, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #4A90E2, #FF6B6B);
+            border-radius: 2px;
+        }
+
+        /* Cards and Grids */
+        .about-content, .education-grid, .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .about-card, .education-card, .certificate-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .about-card:hover, .education-card:hover, .certificate-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+        .skill-item {
+            background: #F4F4F4;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+        }
+        .skill-item:hover {
+            transform: scale(1.1);
+            background: #4A90E2;
+            color: white;
+        }
+        .skill-item i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+        }
+        .project-image {
+            background: linear-gradient(45deg, #4A90E2, #8E44AD);
+            color: white;
+            font-size: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+        }
+        .project-content {
+            padding: 1rem;
+        }
+
+        /* Contact */
+        .contact {
+            background: linear-gradient(135deg, #4A90E2 0%, #8E44AD 100%);
+            color: white;
+            text-align: center;
+        }
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .contact-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+        .contact-item:hover {
+            transform: translateY(-5px);
+        }
+        .social-links {
+            margin-top: 2rem;
+        }
+        .social-link {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: transform 0.3s ease,   color 0.3s ease;
+        }
+        .social-link:hover {
+            transform: translateY(-3px);
+            background: white;
+            color: #4A90E2;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Ruchita Gund</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#certificates">Certificates</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home -->
+    <!-- Home -->
+<section id="home" class="home">
+    <div class="profile-image"><img src="p.jpeg" alt="Ruchita Gund"></div>
+    <h1>Ruchita Gund</h1>
+    <p class="subtitle"><span id="typing-text"></span></p>
+    <a href="#about" class="cta-button">Learn More About Me</a>
+</section>
+
+<style>
+    .home {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #4A90E2 0%, #8E44AD 100%);
+        color: white;
+        animation: gradientShift 10s infinite alternate;
+    }
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    .profile-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid rgba(255,255,255,0.6);
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+    }
+    .profile-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .profile-image:hover {
+        transform: scale(1.05);
+    }
+    .home h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+    }
+    .subtitle {
+        font-size: 1.2rem;
+        min-height: 30px;
+        margin-bottom: 20px;
+    }
+    .cta-button {
+        background: white;
+        color: #4A90E2;
+        padding: 12px 24px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+        background: #FF6B6B;
+        color: white;
+    }
+</style>
+
+<script>
+    const texts = ["Tech Innovator", "Problem Solver", "Lifelong Learner", "Web Developer"];
+    let index = 0;
+    let charIndex = 0;
+    const typingSpeed = 150;
+    const erasingSpeed = 75;
+    const delayBetween = 2000;
+    const typingText = document.getElementById("typing-text");
+
+    function type() {
+        if (charIndex < texts[index].length) {
+            typingText.textContent += texts[index].charAt(charIndex);
+            charIndex++;
+            setTimeout(type, typingSpeed);
+        } else {
+            setTimeout(erase, delayBetween);
+        }
+    }
+
+    function erase() {
+        if (charIndex > 0) {
+            typingText.textContent = texts[index].substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(erase, erasingSpeed);
+        } else {
+            index = (index + 1) % texts.length;
+            setTimeout(type, typingSpeed);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        if(texts.length) setTimeout(type, delayBetween);
+    });
+</script>
+
+
+    <!-- About Me -->
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="about-card">
+                <h3>Profile</h3>
+                <p>Highly motivated and enthusiastic B.Tech Computer Science Engineering student with a solid foundation in programming and problem-solving. Proficient in Java, Python, and C/C++. Skilled at applying core concepts like Object-Oriented Programming, Data Structures, and Exception Handling to real-world-inspired academic projects. Recently developed a Negative Comment Detector, applying text analysis techniques to identify and flag harmful or inappropriate comments. Passionate about learning new technologies, building impactful solutions, and continuously enhancing technical capabilities through hands-on implementation.</p>
+            </div>
+            <div class="about-card">
+                <h3>Languages</h3>
+                <p>English, German</p>
+            </div>
+            <div class="about-card">
+                <h3>Interests</h3>
+                <p>Exploring photography, traveling, learning new technologies, and staying updated with trends in web development to approach challenges with creativity and broader perspectives.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+        <h2 class="section-title">Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-item"><i class="fas fa-code"></i><div>Java</div></div>
+            <div class="skill-item"><i class="fas fa-code"></i><div>Python</div></div>
+            <div class="skill-item"><i class="fas fa-code"></i><div>C</div></div>
+            <div class="skill-item"><i class="fas fa-code"></i><div>C++</div></div>
+            <div class="skill-item"><i class="fas fa-database"></i><div>MySQL</div></div>
+            <div class="skill-item"><i class="fas fa-cogs"></i><div>JDBC</div></div>
+            <div class="skill-item"><i class="fab fa-git-alt"></i><div>Git, GitHub</div></div>
+            <div class="skill-item"><i class="fas fa-laptop-code"></i><div>Java Swing, Eclipse</div></div>
+            <div class="skill-item"><i class="fas fa-project-diagram"></i><div>Data Structures</div></div>
+            <div class="skill-item"><i class="fas fa-object-group"></i><div>OOP</div></div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image"><i class="fas fa-comment-dots"></i></div>
+                <div class="project-content">
+                    <h3>Negative Comment Detection</h3>
+                    <p>Developed a Python-based application to identify and flag harmful comments using NLP techniques and machine learning algorithms like Naive Bayes and Logistic Regression with TF-IDF vectorization.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image"><i class="fas fa-tools"></i></div>
+                <div class="project-content">
+                    <h3>Predictive Maintenance System</h3>
+                    <p>Created a desktop application using Java Swing and MySQL to predict equipment failures and optimize maintenance schedules based on real-time sensor data like temperature and vibration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education">
+        <h2 class="section-title">Education</h2>
+        <div class="education-grid">
+            <div class="education-card">
+                <h3>B.Tech in Computer Science Engineering</h3>
+                <p>Pimpri Chinchwad University, Pune (2024)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates -->
+    <section id="certificates">
+        <h2 class="section-title">Certificates</h2>
+        <div class="certificates-grid">
+            <div class="certificate-card">
+                <h3>Coursera Blockchain </h3>
+                <p><a href="https://coursera.org/verify/specialization/YHF5T2Z4DEZJ" target="_blank">Coursera Certification</a></p>
+            </div>
+            <div class="certificate-card">
+                <h3>Red Hat Application Development I:Programming in JavaEE (AD183)</h3>
+                <p><a href="https://www.credly.com/badges/270d38ff-13bf-4527-a806-0f9243a8a680" target="_blank">Red Hat Certification</a></p>
+            </div>
+            <div class="certificate-card">
+                <h3>Full-stack Development With Django: Managing Migrations </h3>
+                <p><a href="https://coursera.org/verify/AFRI1H6HPLAV" target="_blank">Coursera Certification</a></p>
+            </div>
+            <div class="certificate-card">
+                <h3>foundation of Cybersecurity</h3>
+                <p><a href="https://coursera.org/verify/DKAGRM772DY0" target="_blank">Coursera Certification</a></p>
+            </div>
+            <div class="certificate-card">
+                <h3>Agile with Atlassian Jira</h3>
+                <p><a href="https://coursera.org/verify/1TGZZPHHNTGK" target="_blank">Coursera Certification</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-content">
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <h3>Email</h3>
+                <a href="mailto:gundruchita61@gmail.com">gundruchita61@gmail.com</a>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <h3>Phone</h3>
+                <a href="tel:+917058608904">+91 7058608904</a>
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Location</h3>
+                <p>Pune, Maharashtra</p>
+            </div>
+        </div>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/ruchita-gund-a6ab53293" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/gundruchita61" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+        </div>
+    </section>
+
+    <script>
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting){
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        sections.forEach(section => observer.observe(section));
+    </script>
+
+</body>
+</html>
